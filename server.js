@@ -12,4 +12,3 @@ module.exports = http.createServer(function (req, res) {
 
   var controller = AppController(req, res);
 });
-
