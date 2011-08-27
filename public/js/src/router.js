@@ -6,7 +6,6 @@ APP.Router = Backbone.Router.extend({
   },
 
   index: function () {
-    console.log('index');
     var messages = new APP.Messages;
     var messagesView = new APP.MessagesView({
       collection: messages,
