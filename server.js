@@ -6,7 +6,12 @@ var fileServer = new nodeStatic.Server('./public');
 var router = new journey.Router;
 
 router.get('/api').bind(function (req, res) {
-  res.send(200);
+  var data = [
+    { message: 'Hellllooooo!!!' },
+    { message: 'Wow, this is great.' }
+  ];
+
+  res.send(200, {}, data);
 });
 
 module.exports = http.createServer(function (req, res) {
