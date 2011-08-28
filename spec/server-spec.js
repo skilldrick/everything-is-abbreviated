@@ -16,6 +16,12 @@ vows.describe('Server').addBatch({
         topic: pact.request(),
         'should fail': pact.code(404)
       }
+    },
+    'should respond to /api requests': {
+      'when /api is requested': {
+        topic: pact.request(),
+        'should succeed': pact.code(200)
+      }
     }
   }
 }).export(module);
