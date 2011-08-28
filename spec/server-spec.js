@@ -19,7 +19,10 @@ vows.describe('Server').addBatch({
     },
     'should respond to /api requests': {
       'when /api is requested': {
-        topic: pact.request(),
+        topic: pact.request({
+          url: '/api',
+          method: 'GET',
+        }),
         'should succeed': pact.code(200)
       }
     }
