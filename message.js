@@ -1,5 +1,15 @@
-function Message() {
-  this.id = 0;
-  this.user_id = 0;
+var messages = [];
+
+function messageMaker() {
+  return {
+    id: 0,
+    user_id: 0
+  };
 };
-module.exports = Message;
+
+function allMessages() {
+  return messages;
+}
+
+exports.messageMaker = messageMaker;
+exports.allMessages = allMessages;
