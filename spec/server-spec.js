@@ -24,6 +24,14 @@ vows.describe('Server').addBatch({
           method: 'GET',
         }),
         'should succeed': pact.code(200)
+      },
+      'when /api/messages is requested': {
+        topic: pact.request(),
+        'should succeed': pact.code(200),
+        'should return an array of messages': function (res) {
+          assert.isTrue(res.body.length > 1);
+          assert.include(res.body[0], 'message');
+        }
       }
     }
   }
