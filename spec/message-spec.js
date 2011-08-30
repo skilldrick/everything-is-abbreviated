@@ -34,6 +34,11 @@ vows.describe('Message').addBatch({
           return item.message === 'Hi';
         }));
       }
+    },
+    'Get message by id': function (messages) {
+      message.addMessage({message: 'Yo!', id: 5});
+      var m = message.getMessageById(5);
+      assert.equal('Yo!', m.message);
     }
   }
 }).export(module);
