@@ -11,8 +11,11 @@ function allMessages() {
   return messages;
 }
 
-function addMessage(msg) {
+function addMessage(msg, callback) {
   messages.push(messageMaker(msg));
+  process.nextTick(function () {
+    callback()
+  });
 }
 
 function getMessageById(id) {

@@ -23,15 +23,17 @@ vows.describe('Message').addBatch({
       assert.isArray(all);
     },
     'Add message': {
-      'adding a message should increase the number of messages': function (messages) {
-        var length = messages.length;
-        message.addMessage({message: 'Hello'});
-        assert.notEqual(messages.length, length);
+      topic: function (messages) {
+        this.count = messages.length;
+        this.messages = messages;
+        message.addMessage({message: 'Hello'}, this.callback);
       },
-      'an added message should exist in messages': function (messages) {
-        message.addMessage({message: 'Hi'});
-        assert.isTrue(messages.some(function (item) {
-          return item.message === 'Hi';
+      'message count should increase': function () {
+        assert.notEqual(this.messages.length, this.count);
+      },
+      'an added message should exist in messages': function () {
+        assert.isTrue(this.messages.some(function (item) {
+          return item.message === 'Hello';
         }));
       }
     },
