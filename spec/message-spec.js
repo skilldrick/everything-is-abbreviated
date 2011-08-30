@@ -45,5 +45,10 @@ vows.describe('Message').addBatch({
         }
       }
     }
+  },
+  'Add message': {
+    'should take a raw object': function () {
+
+    }
   }
 }).export(module);
