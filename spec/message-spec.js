@@ -1,12 +1,12 @@
+require('../spec_helper');
 var vows = require('vows');
 var assert = require('assert');
 
-var messageMaker = require('message').messageMaker;
-var allMessages = require('message').allMessages;
+var message = require('message');
 
 vows.describe('Message').addBatch({
   'A message': {
-    topic: function () { return messageMaker(); },
+    topic: function () { return message.messageMaker(); },
     'should exist': function (message) {
       assert.isObject(message);
     },
@@ -18,9 +18,22 @@ vows.describe('Message').addBatch({
     }
   },
   'Messages': {
-    topic: function () { return allMessages(); },
+    topic: function () { return message.allMessages(); },
     'all messages should be an array': function (all) {
       assert.isArray(all);
+    },
+    'Add message': {
+      'adding a message should increase the number of messages': function (messages) {
+        var length = messages.length;
+        message.addMessage({message: 'Hello'});
+        assert.notEqual(messages.length, length);
+      },
+      'an added message should exist in messages': function (messages) {
+        message.addMessage({message: 'Hi'});
+        assert.isTrue(messages.some(function (item) {
+          return item.message === 'Hi';
+        }));
+      }
     }
   }
 }).export(module);
