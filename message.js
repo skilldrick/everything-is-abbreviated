@@ -18,10 +18,14 @@ function addMessage(msg, callback) {
   });
 }
 
-function getMessageById(id) {
-  return messages.filter(function (msg) {
+function getMessageById(id, callback) {
+  var message = messages.filter(function (msg) {
     return msg.id === id;
   })[0];
+
+  process.nextTick(function () {
+    callback(null, message);
+  });
 }
 
 exports.messageMaker = messageMaker;

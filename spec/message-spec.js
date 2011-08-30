@@ -26,7 +26,7 @@ vows.describe('Message').addBatch({
       topic: function (messages) {
         this.count = messages.length;
         this.messages = messages;
-        message.addMessage({message: 'Hello'}, this.callback);
+        message.addMessage({message: 'Hello', id: 5}, this.callback);
       },
       'message count should increase': function () {
         assert.notEqual(this.messages.length, this.count);
@@ -35,12 +35,15 @@ vows.describe('Message').addBatch({
         assert.isTrue(this.messages.some(function (item) {
           return item.message === 'Hello';
         }));
+      },
+      'Get message by id': {
+        topic: function () {
+          message.getMessageById(5, this.callback);
+        },
+        'should match the message': function (err, msg) {
+          assert.equal('Hello', msg.message);
+        }
       }
-    },
-    'Get message by id': function (messages) {
-      message.addMessage({message: 'Yo!', id: 5});
-      var m = message.getMessageById(5);
-      assert.equal('Yo!', m.message);
     }
   }
 }).export(module);
