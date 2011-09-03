@@ -43,10 +43,7 @@ vows.describe('Server').addBatch({
         stubber.restore();
       },
       'when /api is requested': {
-        topic: pact.request({
-          url: '/api',
-          method: 'GET',
-        }),
+        topic: pact.request(),
         'should succeed': pact.code(200)
       },
       'when /api/messages is requested': {
