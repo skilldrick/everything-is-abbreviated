@@ -2,6 +2,7 @@ require('../spec_helper');
 var vows = require('vows');
 var assert = require('assert');
 var pact = require('pact');
+var should = require('should');
 var server = require('server');
 var message = require('message');
 
@@ -50,8 +51,8 @@ vows.describe('Server').addBatch({
         topic: pact.request(),
         'should succeed': pact.code(200),
         'should return an array of messages': function (res) {
-          assert.isTrue(res.body.length === 3);
-          assert.include(res.body[0], 'message');
+          res.body.should.have.length(3);
+          res.body[0].should.have.property('message');
         }
       }
     }
