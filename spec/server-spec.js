@@ -3,6 +3,23 @@ var vows = require('vows');
 var assert = require('assert');
 var pact = require('pact');
 var server = require('server');
+var message = require('message');
+
+var stubber = {
+  stub: function () {
+    this.allMessages = message.allMessages;
+    message.allMessages = function () {
+      return [
+        { message: 'Hellllooooo!!!' },
+        { message: 'Wow, this is great.' },
+        { message: 'Wow, this is great.' }
+      ];
+    };
+  },
+  restore: function () {
+    message.allMessages = this.allMessages;
+  }
+};
 
 vows.describe('Server').addBatch({
   'A server': {
@@ -18,6 +35,13 @@ vows.describe('Server').addBatch({
       }
     },
     'should respond to /api requests': {
+      topic: function () {
+        stubber.stub();
+        return false;
+      },
+      teardown: function () {
+        stubber.restore();
+      },
       'when /api is requested': {
         topic: pact.request({
           url: '/api',
@@ -29,7 +53,7 @@ vows.describe('Server').addBatch({
         topic: pact.request(),
         'should succeed': pact.code(200),
         'should return an array of messages': function (res) {
-          assert.isTrue(res.body.length > 1);
+          assert.isTrue(res.body.length === 3);
           assert.include(res.body[0], 'message');
         }
       }

@@ -4,16 +4,14 @@ var journey = require('journey');
 
 var fileServer = new nodeStatic.Server('./public');
 var router = new journey.Router;
+var message = require('message');
 
 router.get('/api').bind(function (req, res) {
   res.send(200);
 });
 
 router.get('/api/messages').bind(function (req, res) {
-  var data = [
-    { message: 'Hellllooooo!!!' },
-    { message: 'Wow, this is great.' }
-  ];
+  var data = message.allMessages();
 
   res.send(200, {}, data);
 });
