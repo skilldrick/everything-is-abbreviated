@@ -20,7 +20,6 @@ var stubMessagesFunc = function (callback) {
 };
 
 var stubAddMessageFunc = function (msg, callback) {
-  console.log('addMessage');
   process.nextTick(function () {
     callback(null, 42);
   });
@@ -29,14 +28,14 @@ var stubAddMessageFunc = function (msg, callback) {
 vows.describe('Server').addBatch({
   'A server': {
     topic: pact.httpify(server),
-    'should serve static files': {
+    'with static files:': {
       'when /index.html is requested': {
         topic: pact.request(),
-        'should succeed': pact.code(200)
+        'should respond with success': pact.code(200)
       },
       'when /blahblahblah is requested': {
         topic: pact.request(),
-        'should fail': pact.code(404)
+        'should respond with failure': pact.code(404)
       }
     },
     'with stubbed allMessages': {
@@ -48,12 +47,12 @@ vows.describe('Server').addBatch({
       },
       'when /api is requested': {
         topic: pact.request(),
-        'should succeed': pact.code(200)
+        'should respond with success': pact.code(200)
       },
       'when /api/messages is requested': {
         topic: pact.request(),
-        'should succeed': pact.code(200),
-        'should return an array of messages': function (res) {
+        'should respond with success': pact.code(200),
+        'should respond with an array of messages': function (res) {
           res.body.should.have.length(3);
           res.body[0].should.have.property('message');
         }
@@ -75,8 +74,8 @@ vows.describe('Server').addBatch({
         'a new message should be added': function () {
           message.addMessage.called.should.be.true;
         },
-        'it should be successful': pact.code(200),
-        'the new message id should be returned': function (res) {
+        'should respond with success': pact.code(200),
+        'should respond with the new message id': function (res) {
           res.body.should.equal(42);
         }
       }

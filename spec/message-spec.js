@@ -6,7 +6,7 @@ var should = require('should');
 var message = require('message');
 
 vows.describe('Message').addBatch({
-  'A message': {
+  'A message produced by messageMaker': {
     topic: function () { return message.messageMaker(); },
     'should exist': function (message) {
       should.exist(message);
@@ -15,14 +15,14 @@ vows.describe('Message').addBatch({
       message.user_id.should.be.a('number');
     }
   },
-  'Messages': {
+  'Get all messages': {
     topic: function () {
       message.allMessages(this.callback);
     },
-    'all messages should be an array': function (err, all) {
+    'All messages should be an array': function (err, all) {
       all.should.be.instanceof(Array);
     },
-    'Add message': {
+    'then add message': {
       topic: function (messages) {
         this.count = messages.length;
         this.messages = messages;
@@ -40,7 +40,7 @@ vows.describe('Message').addBatch({
       'the message id should be returned': function (messageId) {
         messageId.should.equal(0);
       },
-      'Add another message': {
+      'then add another message': {
         topic: function () {
           message.addMessage({message: 'Hello'}, this.callback);
         },
@@ -48,7 +48,7 @@ vows.describe('Message').addBatch({
           messageId.should.equal(1);
         }
       },
-      'Get message by id': {
+      'then get message by id': {
         topic: function () {
           message.getMessageById(0, this.callback);
         },
