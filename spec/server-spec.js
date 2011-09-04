@@ -1,4 +1,4 @@
-require('../spec_helper');
+require('./spec_helper');
 var vows = require('vows');
 var assert = require('assert');
 var pact = require('pact');
