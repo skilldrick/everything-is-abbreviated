@@ -3,23 +3,17 @@ var vows = require('vows');
 var assert = require('assert');
 var pact = require('pact');
 var should = require('should');
+var sinon = require('sinon');
 var server = require('server');
 var message = require('message');
 
-var stubber = {
-  stub: function () {
-    this.allMessages = message.allMessages;
-    message.allMessages = function () {
-      return [
-        { message: 'Hellllooooo!!!' },
-        { message: 'Wow, this is great.' },
-        { message: 'Wow, this is great.' }
-      ];
-    };
-  },
-  restore: function () {
-    message.allMessages = this.allMessages;
-  }
+
+var stubMessagesFunc = function () {
+  return [
+    { message: 'Hellllooooo!!!' },
+    { message: 'Wow, this is great.' },
+    { message: 'Yeah, really great.' }
+  ];
 };
 
 vows.describe('Server').addBatch({
@@ -37,11 +31,11 @@ vows.describe('Server').addBatch({
     },
     'should respond to /api requests': {
       topic: function () {
-        stubber.stub();
+        sinon.stub(message, 'allMessages', stubMessagesFunc);
         return false;
       },
       teardown: function () {
-        stubber.restore();
+        message.allMessages.restore();
       },
       'when /api is requested': {
         topic: pact.request(),
