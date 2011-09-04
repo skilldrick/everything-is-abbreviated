@@ -11,9 +11,6 @@ vows.describe('Message').addBatch({
     'should exist': function (message) {
       should.exist(message);
     },
-    'should have an id': function (message) {
-      message.id.should.be.a('number');
-    },
     'should have a user': function (message) {
       message.user_id.should.be.a('number');
     }
@@ -27,7 +24,7 @@ vows.describe('Message').addBatch({
       topic: function (messages) {
         this.count = messages.length;
         this.messages = messages;
-        message.addMessage({message: 'Hello', id: 5}, this.callback);
+        message.addMessage({message: 'Hello'}, this.callback);
       },
       'message count should increase': function () {
         this.count.should.not.equal(this.messages.length);
@@ -38,9 +35,21 @@ vows.describe('Message').addBatch({
         });
         messageExists.should.be.true;
       },
+      'the message id should be returned': function (err, result) {
+        result.should.equal(0);
+      },
+      'Add another message': {
+        topic: function (messages) {
+          message.addMessage({message: 'Hello again'}, this.callback);
+        },
+        'the message id should be returned': function (err, result) {
+          result.should.equal(1);
+        }
+      },
       'Get message by id': {
         topic: function () {
-          message.getMessageById(5, this.callback);
+          console.log(message.allMessages());
+          message.getMessageById(0, this.callback);
         },
         'should match the message': function (err, msg) {
           msg.message.should.equal('Hello');

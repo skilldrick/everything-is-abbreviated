@@ -2,7 +2,6 @@ var messages = [];
 
 function messageMaker(attrs) {
   attrs = attrs || {};
-  attrs.id = attrs.id || 0;
   attrs.user_id = 0;
   return attrs;
 };
@@ -12,16 +11,17 @@ function allMessages() {
 }
 
 function addMessage(msg, callback) {
-  messages.push(messageMaker(msg));
+  var newMessage = messageMaker(msg);
+  messages.push(newMessage);
+  var messageId = messages.length - 1;
+
   process.nextTick(function () {
-    callback()
+    callback(null, messageId)
   });
 }
 
 function getMessageById(id, callback) {
-  var message = messages.filter(function (msg) {
-    return msg.id === id;
-  })[0];
+  var message = messages[id];
 
   process.nextTick(function () {
     callback(null, message);
