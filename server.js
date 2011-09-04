@@ -11,14 +11,15 @@ router.get('/api').bind(function (req, res) {
 });
 
 router.get('/api/messages').bind(function (req, res) {
-  var data = message.allMessages();
-
-  res.send(200, {}, data);
+  message.allMessages(function (err, messages) {
+    res.send(200, {}, messages);
+  });
 });
 
 router.post('/api/messages').bind(function (req, res, data) {
-  message.addMessage(data);
-  res.send(200, {}, {});
+  message.addMessage(data, function (err, id) {
+    res.send(200, {}, id);
+  });
 });
 
 

@@ -20,7 +20,6 @@ vows.describe('Message').addBatch({
       message.allMessages(this.callback);
     },
     'all messages should be an array': function (err, all) {
-      console.log('arguments1:', arguments);
       all.should.be.instanceof(Array);
     },
     'Add message': {
