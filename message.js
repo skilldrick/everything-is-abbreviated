@@ -6,8 +6,10 @@ function messageMaker(attrs) {
   return attrs;
 };
 
-function allMessages() {
-  return messages;
+function allMessages(callback) {
+  process.nextTick(function () {
+    callback(null, messages);
+  });
 }
 
 function addMessage(msg, callback) {

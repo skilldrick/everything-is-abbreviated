@@ -16,8 +16,11 @@ vows.describe('Message').addBatch({
     }
   },
   'Messages': {
-    topic: function () { return message.allMessages(); },
-    'all messages should be an array': function (all) {
+    topic: function () {
+      message.allMessages(this.callback);
+    },
+    'all messages should be an array': function (err, all) {
+      console.log('arguments1:', arguments);
       all.should.be.instanceof(Array);
     },
     'Add message': {
@@ -35,20 +38,19 @@ vows.describe('Message').addBatch({
         });
         messageExists.should.be.true;
       },
-      'the message id should be returned': function (err, result) {
-        result.should.equal(0);
+      'the message id should be returned': function (messageId) {
+        messageId.should.equal(0);
       },
       'Add another message': {
-        topic: function (messages) {
-          message.addMessage({message: 'Hello again'}, this.callback);
+        topic: function () {
+          message.addMessage({message: 'Hello'}, this.callback);
         },
-        'the message id should be returned': function (err, result) {
-          result.should.equal(1);
+        'the message id should be greater than before': function (messageId) {
+          messageId.should.equal(1);
         }
       },
       'Get message by id': {
         topic: function () {
-          console.log(message.allMessages());
           message.getMessageById(0, this.callback);
         },
         'should match the message': function (err, msg) {
