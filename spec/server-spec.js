@@ -32,10 +32,12 @@ vows.describe('Server').addBatch({
     'should respond to /api requests': {
       topic: function () {
         sinon.stub(message, 'allMessages', stubMessagesFunc);
+        sinon.stub(message, 'addMessage');
         return false;
       },
       teardown: function () {
         message.allMessages.restore();
+        message.addMessage.restore();
       },
       'when /api is requested': {
         topic: pact.request(),
@@ -47,6 +49,15 @@ vows.describe('Server').addBatch({
         'should return an array of messages': function (res) {
           res.body.should.have.length(3);
           res.body[0].should.have.property('message');
+        }
+      },
+      'when /api/messages is posted to': {
+        topic: pact.request({
+          method: 'POST',
+          data: { message: 'This is a new message' }
+        }),
+        'a new message should be added': function () {
+          message.addMessage.called.should.be.true;
         }
       }
     }

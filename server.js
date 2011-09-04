@@ -16,6 +16,12 @@ router.get('/api/messages').bind(function (req, res) {
   res.send(200, {}, data);
 });
 
+router.post('/api/messages').bind(function (req, res, data) {
+  message.addMessage(data);
+  res.send(200, {}, {});
+});
+
+
 module.exports = http.createServer(function (req, res) {
   var body = '';
 
